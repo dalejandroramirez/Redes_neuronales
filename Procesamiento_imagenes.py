@@ -2,6 +2,8 @@ import json
 import codecs
 import requests
 import numpy as np
+import pandas as pd
+import seaborn as sns
 from PIL import Image
 from io import BytesIO
 import matplotlib.pyplot as plt
@@ -38,5 +40,17 @@ def Cargar_data_base64():
     plt.show()
     return(0)
 
+def Cargar_data_csv():
+    train="/home/usuario/Documentos/Platzi/Redes_neuronales/databasesLoadData/sign_mnist_train/sign_mnist_train.csv"
+    test=pd.read_csv("/home/usuario/Documentos/Platzi/Redes_neuronales/databasesLoadData/sign_mnist_test/sign_mnist_test.csv")
+    train=pd.read_csv(train)
+    
+    labels=train["label"].values
+    train.drop("label",axis=1,inplace=True)
+    images=train.values 
+    plt.imshow(images[1].reshape(28,28))
+    plt.show()
+    return(0)
+
 if __name__=="__main__":
-    print(Cargar_data_base64())
+    print(Cargar_data_csv())
