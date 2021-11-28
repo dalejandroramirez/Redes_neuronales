@@ -7,17 +7,18 @@ from io import BytesIO
 import matplotlib.pyplot as plt
 
 def Cargar_data_json():
-    data_json=[]
+    data_json=[] ##es un archivo con un diccionario con la url de la imagen y su label
     url="/home/usuario/Documentos/Platzi/Redes_neuronales/databasesLoadData/sign_mnist_json/data.json"
     with codecs.open(url,"rU","utf-8") as js:
         for line in js:
             data_json.append(json.loads(line))
 
     images=[]
-
+    #return(BytesIO(Image.open('https://storage.googleapis.com/platzi-tf2/img_mnist/50_A.jpg')))
     for data in data_json:
         response=requests.get(data["content"])
         img=np.asarray(Image.open(BytesIO(response.content)))
+        print(img)
         images.append([img,data["label"]])
 
     plt.imshow(images[0][0].reshape(28,28))
