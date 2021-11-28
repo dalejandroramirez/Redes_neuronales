@@ -14,18 +14,29 @@ def Cargar_data_json():
             data_json.append(json.loads(line))
 
     images=[]
-    #return(BytesIO(Image.open('https://storage.googleapis.com/platzi-tf2/img_mnist/50_A.jpg')))
     for data in data_json:
         response=requests.get(data["content"])
         img=np.asarray(Image.open(BytesIO(response.content)))
-        print(img)
         images.append([img,data["label"]])
-
-    plt.imshow(images[0][0].reshape(28,28))
+    plt.imshow(images[2][0].reshape(28,28))
     plt.show()
-
     return(0)
 
 
+def Cargar_data_base64():
+    import base64
+    url="/home/usuario/Documentos/Platzi/Redes_neuronales/databasesLoadData/sign_mnist_base64/data.json"
+    with open(url) as f:
+        data=json.load(f)
+    base64_img_bytes=data["b"].encode("utf-8")
+    path_img="/home/usuario/Documentos/Platzi/Redes_neuronales/Imagenes/images.png"
+    with open(path_img,"wb") as file_to_save:
+        decoded_image_data=base64.decodebytes(base64_img_bytes)
+        file_to_save.write(decoded_image_data)
+    img=Image.open(path_img)
+    plt.imshow(img)
+    plt.show()
+    return(0)
+
 if __name__=="__main__":
-    print(Cargar_data_json())
+    print(Cargar_data_base64())
