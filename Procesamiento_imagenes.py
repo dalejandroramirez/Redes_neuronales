@@ -52,5 +52,35 @@ def Cargar_data_csv():
     plt.show()
     return(0)
 
+def Preprocesamiento():
+    train=pd.read_csv("/home/usuario/Documentos/Platzi/Redes_neuronales/databasesLoadData/sign_mnist_train/sign_mnist_train_clean.csv")
+    test=pd.read_csv("/home/usuario/Documentos/Platzi/Redes_neuronales/databasesLoadData/sign_mnist_test/sign_mnist_test.csv")
+    ##debemos ver si la base de datos está balanceada es decir que hay cantidades similares
+    #de cada label
+    """plt.figure(figsize=(10,10))
+    sns.set_style("darkgrid")
+    sns.countplot(train["label"])
+    plt.show()"""
+    y_train=train["label"]
+    y_test=train["label"]
+    labels=train["label"].values
+    del train["label"]
+    del test["label"]
+    ##que hay en la data
+    """print(train.info())
+    print(np.unique(np.array(labels)))"""
+    ##¿hay variables nulas?
+    "print(train.isnull().values.any())"
+    ##¿tiene duplicados?
+    """print(train[train.duplicated()]) """ ##elimino lo que es ruido
+    train =train.drop([317,487,595,689,802,861],axis=0)
+    #print(train[train['pixel1'] =="fwefew"])
+    train=train.drop([727],axis=0)     
+
+    ##normalizar (los valores de la matrix estan entre 0, 255)
+    train=train.astype(str).astype(int)
+    train=train/255
+    test=test/255
+    
 if __name__=="__main__":
-    print(Cargar_data_csv())
+    print(Preprocesamiento())
